@@ -9,14 +9,57 @@ function App() {
   console.log("contacs from JSON:", startingArray);
   const [contacts, setContacts] = useState(startingArray);
 
-  const randomContact = (restArray) => {
-    setContacts(restArray(Math.floor(Math.random() * restArray.length)));
+  const randomContact = () => {
+    const randomIndex = Math.floor(Math.random() * restArray.length - 1);
+    const randomContact = restArray[randomIndex];
+    console.log(randomContact);
+    console.log("Random contact was triggered");
+    setContacts([...contacts, randomContact]);
+  };
+
+  const sortByName = () => {
+    const newArray = [...contacts].sort((a, b) => {
+      if (b.name < a.name) {
+        return 1;
+      } else {
+        return -1;
+      }
+    });
+    setContacts(newArray);
+    console.log("new Array", newArray);
+  };
+
+  const sortByPopularity = () => {
+    const newArray = [...contacts].sort((a, b) => {
+      if (b.popularity > a.popularity) {
+        return 1;
+      } else {
+        return -1;
+      }
+    });
+    setContacts(newArray);
+    console.log("new Array", newArray);
+  };
+
+  const removeContact = () => {
+    const newArray = [...contacts].sort((a, b) => {
+      if (b.popularity > a.popularity) {
+        return 1;
+      } else {
+        return -1;
+      }
+    });
+    setContacts(newArray);
+    console.log("new Array", newArray);
   };
 
   return (
     <div className="App">
       <h1>IronContacts</h1>
       <button onClick={randomContact}>Add Random Contact</button>
+      <button onClick={sortByName}>Sort by name</button>
+      <button onClick={sortByPopularity}>Sort by popularity</button>
+
       <table>
         <thead>
           <tr>
@@ -25,6 +68,7 @@ function App() {
             <th>Popularity</th>
             <th>Won an Oscar</th>
             <th>Won an Emmy</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -48,7 +92,10 @@ function App() {
                   <span>{contact.wonOscar && <p>🏆</p>}</span>
                 </td>
                 <td>
-                  <span>{contact.wonEmmy && <p>🏆</p>}</span>
+                  <span>{contact.wonEmmy && <p>🌟</p>}</span>
+                </td>
+                <td>
+                  <button onClick={removeContact}>Delete</button>
                 </td>
               </tr>
             );
