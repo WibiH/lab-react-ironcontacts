@@ -41,16 +41,11 @@ function App() {
     console.log("new Array", newArray);
   };
 
-  const removeContact = () => {
-    const newArray = [...contacts].sort((a, b) => {
-      if (b.popularity > a.popularity) {
-        return 1;
-      } else {
-        return -1;
-      }
+  const deleteContact = (id) => {
+    const contactsExcludingDeletedContact = contacts.filter((contact) => {
+      return contact.id !== id;
     });
-    setContacts(newArray);
-    console.log("new Array", newArray);
+    setContacts(contactsExcludingDeletedContact);
   };
 
   return (
@@ -79,23 +74,25 @@ function App() {
                   <img
                     src={contact.pictureUrl}
                     alt={contact.name}
-                    style={{ width: "18%" }}
+                    style={{ width: "3em" }}
                   />
                 </td>
                 <td>
                   <span>{contact.name}</span>
                 </td>
                 <td>
-                  <span>{contact.popularity}</span>
+                  <span>{contact.popularity.toFixed(2)}</span>
                 </td>
                 <td>
-                  <span>{contact.wonOscar && <p>🏆</p>}</span>
+                  <span>{contact.wonOscar && "🏆"}</span>
                 </td>
                 <td>
-                  <span>{contact.wonEmmy && <p>🌟</p>}</span>
+                  <span>{contact.wonEmmy && "🌟"}</span>
                 </td>
                 <td>
-                  <button onClick={removeContact}>Delete</button>
+                  <button onClick={() => deleteContact(contact.id)}>
+                    Delete
+                  </button>
                 </td>
               </tr>
             );
